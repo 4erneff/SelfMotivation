@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>title</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <%= @title %>
+    </br>
+    <form action="/user/create" method="POST">
+      Username: <input type="text" name="user[name]">
+      </br>
+      Password: <input type="text" name="user[password]">
+      <input type="submit">
+    </form>
+  </body>
+</html>
