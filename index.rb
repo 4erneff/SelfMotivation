@@ -19,6 +19,8 @@ configure do
   DataMapper.auto_upgrade!
 end
 
+enable :sessions
+
 get '/' do
     @title = 'Dashboard'
     erb :index
