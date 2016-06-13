@@ -1,3 +1,11 @@
+module Authentication
+  def authenticate!
+    unless session[:user]
+      redirect '/login'
+    end
+  end
+end
+
 get '/user/new' do
   @title = 'Registration'
   erb :register
@@ -11,13 +19,13 @@ end
 
 post '/user/create' do
   unless params[:user]['password'] == params[:user]['confirm_password']
-    return "The two passwords don't match."
+    return { :status => 'error', :message => "The passwords don't match." }.to_json
   end
   user = User.new(params[:user])
   if user.save
-    @message = 'The registration was successful!'
+    { :status => 'success', :message => 'The registration was successful!', :redirect => '/login' }.to_json
   else
-    @message = user.errors.first()
+    { :status => 'error', :message => user.errors.first() }.to_json
   end
 end
 
@@ -31,9 +39,9 @@ post '/login' do
   password = params[:password]
   if user = User.authenticate(username, password)
     session[:user] = user.id
-    redirect '/baba'
+    { :status => 'success', :redirect => '/baba' }.to_json
   else
-    redirect 'succses'
+    { :status => 'error', :message => 'Wrong username or password' }.to_json
   end
 end
 

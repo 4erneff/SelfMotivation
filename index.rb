@@ -6,6 +6,7 @@ require 'dm-core'
 require 'dm-migrations'
 require 'dm-sqlite-adapter'
 require 'dm-timestamps'
+require 'json'
 
 require './models/User'
 require './routes/auth'

@@ -36,7 +36,9 @@ class User
   def initialize(hash_parameters)
     hash_parameters.each { |key, value| value.strip! }
     self.name = hash_parameters['name']
-    self.password = Digest::SHA256.base64digest hash_parameters['password']
+    unless hash_parameters['password'] == ""
+      self.password = Digest::SHA256.base64digest hash_parameters['password']
+    end
     self.email = hash_parameters['email']
     self.pass_code = (0...8).map { (65 + rand(26)).chr }.join
   end
@@ -65,4 +67,8 @@ class User
     user.update(:password => password)
   end
 
+  def self.authenticated?(session)
+    return session[:user] if session[:user] != nil
+    redirect '/login'
+  end
 end
