@@ -57,18 +57,21 @@ class User
 
   def self.password_forgotten(email)
     user = User.first(:email => email)
+    return nil unless user
     user.update(:pass_code => user.id.to_s + (0...8).map { (65 + rand(26)).chr }.join)
     EmailSender.password_forgotten user.email, user.pass_code
   end
 
   def self.password_forgotten_change(key, password)
-    password = Digest::SHA256.base64digest password
+    p key, password
     user = User.first(:pass_code => key)
+    return nil if user == nil or password == nil or password.strip == ""
+    password = Digest::SHA256.base64digest password
     user.update(:password => password)
   end
 
-  def self.authenticated?(session)
-    return session[:user] if session[:user] != nil
-    redirect '/login'
+  def self.get_logged_user(session)
+    return User.first(:id => session[:user]) if session[:user] != nil
+    nil
   end
 end

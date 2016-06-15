@@ -39,7 +39,7 @@ post '/login' do
   password = params[:password]
   if user = User.authenticate(username, password)
     session[:user] = user.id
-    { :status => 'success', :redirect => '/baba' }.to_json
+    { :status => 'success', :redirect => '/' }.to_json
   else
     { :status => 'error', :message => 'Wrong username or password' }.to_json
   end
@@ -61,8 +61,11 @@ get '/password_forgotten' do
 end
 
 post '/password_forgotten' do
-  User.password_forgotten params[:email]
-  redirect '/gjwp'
+  if User.password_forgotten params[:email]
+    {:status => 'success', :message => 'Reset password link was sent to your email. You can use it to change your password'}.to_json
+  else
+    {:status => 'error', :message => 'There is no user with this email.'}.to_json
+  end
 end
 
 get '/user/password/forgotten/change' do
@@ -71,6 +74,11 @@ get '/user/password/forgotten/change' do
 end
 
 post '/user/password/forgotten/change' do
-  User.password_forgotten_change params[:key], params[:new_password]
-  redirect '/login'
+  user = User.password_forgotten_change params[:key], params[:new_password]
+  if user
+    {:status => 'success', 'message' => 'Your password has been changed!', :redirect => '/login'}.to_json
+  else
+    {:status => 'error', 'message' => 'Something went wrong. Please try again!'}.to_json
+  end
 end
+

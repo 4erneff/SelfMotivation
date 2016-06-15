@@ -23,8 +23,9 @@ end
 enable :sessions
 
 get '/' do
-    @title = 'Dashboard'
-    erb :index
+  @logged_user = User.get_logged_user(session)
+  puts @logged_user
+  erb :index
 end
 
 

@@ -14,7 +14,7 @@ function loginPOST() {
     });
 }
 
-function signupPOST(data) {
+function signupPOST() {
     $.ajax({
          url: "../user/create",
          type: "POST",
@@ -34,6 +34,45 @@ function signupPOST(data) {
     });
 }
 
+function passwordForgottenPOST() {
+    $.ajax({
+         url: "../password_forgotten",
+         type: "POST",
+         data: $("#password-forgotten-form").serialize(),
+	 success: function(data) {
+	     console.log(data);
+	     data = JSON.parse(data);
+	     if ( data.status === 'success' ) {
+		$("#error-msg").empty();
+		$("#success-msg").html(data.message);
+             } else {
+		$("#success-msg").empty();
+	        $("#error-msg").html(data.message);
+	     }
+	 }
+    });
+}
+
+function passwordForgottenChangePOST() {
+    $.ajax({
+         url: "../forgotten/change",
+         type: "POST",
+         data: $("#password-forgotten-change-form").serialize(),
+	 success: function(data) {
+	     console.log(data);
+	     data = JSON.parse(data);
+	     if ( data.status === 'success' ) {
+		$("#error-msg").empty();
+		alert(data.message);	
+		window.location.replace(data.redirect);
+             } else {
+		$("#success-msg").empty();
+	        $("#error-msg").html(data.message);
+	     }
+	 }
+    });
+}
+
 function sleep(milliseconds) {
   var start = new Date().getTime();
   for (var i = 0; i < 1e7; i++) {
@@ -42,3 +81,5 @@ function sleep(milliseconds) {
     }
   }
 }
+
+
