@@ -1,0 +1,42 @@
+.goal-field{
+	float:none;
+	width: 40%;
+}
+
+thead { 
+	font-weight: bold;
+	border-bottom: 0.2em solid black;
+}
+
+.metrics-label {
+	font-size: 2em;
+}
+
+.metrics-panel {
+	background-color: transparent;
+	box-shadow: none;
+	text-align: center;
+}
+
+.actions-td {
+	width: 27%;
+}
+
+td {
+	vertical-align: middle !important;
+}
+
+#add-metric {
+	width: 50%;
+}
+
+#datepicker { 
+	width: 57%;
+}
+
+.calendar-ico { 
+	position: absolute;
+	top: 61%;
+	left: 51%;
+	cursor: pointer;
+}

@@ -10,6 +10,7 @@ require 'json'
 
 require './models/User'
 require './routes/auth'
+require './routes/goal'
 
 configure do
     DataMapper::setup(:default, File.join('sqlite3://', Dir.pwd, 'development.db'))
