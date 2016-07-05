@@ -40,3 +40,13 @@ td {
 	left: 51%;
 	cursor: pointer;
 }
+
+#finish-btn {
+	position: absolute;
+	top: 47%;
+	left: 74%;
+	border-radius: 860em;
+	width: 8em;
+	height: 8em;
+	background: DodgerBlue none repeat scroll 0% 0%;
+}

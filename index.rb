@@ -9,6 +9,7 @@ require 'dm-timestamps'
 require 'json'
 
 require './models/User'
+require './models/Goal'
 require './routes/auth'
 require './routes/goal'
 

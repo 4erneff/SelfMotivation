@@ -1,5 +1,5 @@
 var editCounter = 0;
-var addedMetrics = 0;
+var addedMetrics = 1;
 
 function addMetric () {
 	valueType = $("#add-value").val();
@@ -109,6 +109,7 @@ function serializeMetrics() {
 	fiedls = $(".metric-field");
 	for (var i = fiedls.length - 1; i >= 0; i--) {
 		field = fiedls[i];
+		if (!$(field).attr('name')) continue;
 		result += ($(field).attr('name') + '=' + $(field).text() + '&');
 		counter ++;
 	};
@@ -119,9 +120,14 @@ function sendGoalRequest() {
     $.ajax({
          url: "./new",
          type: "POST",
-         data: $("body :input").serialize() + serializeMetrics(),
+         data: $("body :input").serialize() + '&' + serializeMetrics(),
 	 success: function(data) {
+	     data = JSON.parse(data);
 	     console.log(data);
+	     alert(data.message);
+	     if ( data.status == 'success' ) {
+	     	window.location.replace(data.redirect);
+	     }
 	 }
     });
 }
