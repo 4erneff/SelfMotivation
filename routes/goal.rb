@@ -33,6 +33,6 @@ end
 get '/goal/list' do
   user = User.get_logged_user session
   error 301 unless user
-  goals = Goal.all(:user => user)
-  goals = goals.map { |goal| goal.to_s + goal.metrics.all().size.to_s  }
+  @goals = Goal.all(:user => user)
+  erb :goal_list
 end
