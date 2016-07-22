@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="Dashboard%20Template%20for%20Bootstrap_files/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <link href="/css/navbar.css" rel="stylesheet">
+    <link href="/css/goal-list.css" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+    <style type="text/css">
+
+        #add-progress {
+            margin-top: 3em;
+            position: relative;
+        }
+
+        #datepicker {
+            padding-left: 1%;
+        }
+
+        #dp-wrapp {
+            width: 18%;
+            margin-top: 0.5%;
+        }
+
+        .calendar-ico {
+            position: absolute;
+            left: 90%;
+            top: 32%;
+        }
+
+        thead { 
+            font-weight: bold;
+            border-bottom: 0.2em solid black;
+        }
+
+        .metrics-label {
+            font-size: 2em;
+        }
+
+        .metrics-panel {
+            background-color: transparent;
+            box-shadow: none;
+            text-align: center;
+            width: 45% !important;
+        }
+
+        .actions-td {
+            width: 27%;
+        }
+
+        td {
+            vertical-align: middle !important;
+        }
+
+        #add-metric {
+            width: 50%;
+        }
+
+        #add-prog-btn {
+            position: absolute;
+            left: 53%;
+            top: 50%;
+            border-radius: 860em;
+            width: 6em;
+            height: 6em;
+            background: rgb(59, 170, 32) none repeat scroll 0% 0%;
+        }
+
+        .form-control {
+            padding: 6px 12px !importan;t
+        }
+    </style>
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!-- <script src="Dashboard%20Template%20for%20Bootstrap_files/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <%= erb 'navbar'.to_sym %>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="./new">Set goal</a></li>
+            <li><a href="./list">View goals</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">Export</a></li>
+          </ul>
+        </div>
+	    </br></br></br>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header"><%= @goal.name %></h1>
+
+            <div id="add-progress">
+                <div class="form-group">
+                    <label for="why" class="col-sm-3 control-label">Date</label></br>
+                    <div id="dp-wrapp" class="col-sm-9 goal-field" >
+                        <input type="date" id="datepicker" class="form-control" name="goal_deadline" placeholder="When the progress was done">
+                        <span class="calendar-ico glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                    </div>
+                </div>
+
+                <br><br>
+                    <div class="panel metrics-panel">                        
+                    <!-- Default panel contents -->
+                        <!-- Table -->
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td>Value type</td>
+                                    <td>About</td>
+                                    <td style="width: 10%;">Add</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% @goal.metrics.each do |metric| %>
+                                    <tr data-for="time-row">
+                                    <td class = "metric-field" name="metric[0][value]" data-for="value-type"><%= metric.value %></td>
+                                    <td class = "metric-field" name="metric[0][about]" data-for="about"><%= metric.about %></td>
+                                    <td class = "metric-field" name="metric[0][aim]" data-for="aim">
+                                        <input id="add-aim" class="form-control">
+                                    </td>
+                                </tr>
+                                <% end %>                                
+                            </tbody>
+                        </table>
+                    </div>
+                <button id="add-prog-btn" id="set-goal" type="button" class="btn btn-default btn-success" onclick="sendGoalRequest()">Add all
+                </button>
+            </div>
+            <br><br>
+            <div id="plan">
+                <label for="description" class="col-sm-3 control-label">Goal plan</label>
+                <br><br>
+                <div class="col-sm-9 goal-field">
+                    <div>
+                        <%= @goal.how %>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <div id="statistics">
+                <label for="description" class="col-sm-3 control-label">Sttistic</label>
+                <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/js/jquery.js"></script>
+    <script src="/js/create-goal.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.js"><\/script>')</script>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+    <script>
+        $(function() {
+           $( "#datepicker" ).datepicker(); 
+        });
+
+        var needed = {
+            'time spent learing' : '40 out of 120',
+            'tutorials done' : '2 out of 10',
+            'lines of code written': '400 out of 600',
+            'videos watched' : '10 out of 14'
+        };
+
+        $(function () {
+            $('#container').highcharts({
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: '<%= @goal.name %>'
+                },
+                xAxis: {
+                    categories: [
+                        <% @goal.metrics.each do |metric| %>
+                            '<%= metric.value %> <%=metric.about %>',
+                        <% end %>
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Percent done'
+                    }
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },tooltip: {
+                    formatter: function() {
+                        return 'The value for <b>' + this.x + '</b> is <b>' + needed[this.x] + '</b>';
+                    }
+                },
+                series: [{
+                    name: 'Your goals progress in metrics',
+                    data: [{y: 60, color: 'yellow'} , {y: 10, color: 'red'}, {y: 90, color: 'green'}, {y: 73, color: 'green'}, ]
+
+                }],
+
+            });
+        });
+    </script>
+
+</body></html>

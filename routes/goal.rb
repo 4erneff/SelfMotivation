@@ -36,3 +36,11 @@ get '/goal/list' do
   @goals = Goal.all(:user => user)
   erb :goal_list
 end
+
+get '/goal/manage' do
+  @logged_user = User.get_logged_user session
+  error 301 unless @logged_user
+  @goal = Goal.first(:id => params['g'])
+  p @goal
+  erb :goal_manage
+end

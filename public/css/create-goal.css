@@ -50,3 +50,7 @@ td {
 	height: 8em;
 	background: DodgerBlue none repeat scroll 0% 0%;
 }
+
+.hide-delete {
+	visibility: hidden;
+}

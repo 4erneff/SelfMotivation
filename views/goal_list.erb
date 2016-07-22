@@ -58,14 +58,15 @@
                       <a href="#">
                         <h2><%= goal.name %></h2>
                         <p><%= goal.why %></p>
-                        <button type="button" class="edit-button btn btn-default" aria-label="Left Align" title="Add progress or edit">
+                        <button type="button" class="edit-button btn btn-default" aria-label="Left Align" onclick="window.location='./manage?g=<%= goal.id %>';"
+                        title="Add progress or edit">
                           <span class="edit-spn glyphicon glyphicon-pencil" aria-hidden="true"></span>
                         </button>
                       </a>
                     </li>
                 <% end %>
 
-              </ul>
+            </ul>
 
 
         </div>
