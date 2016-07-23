@@ -2,7 +2,7 @@ require 'gmail'
 
 module EmailSender
   EMAIL = 'iv.chernev@gmail.com'
-  PASSWORD = '15191519'
+  PASSWORD = ''
 
   def self.password_forgotten(receiver, key)
     gmail = Gmail.connect(EMAIL, PASSWORD)
