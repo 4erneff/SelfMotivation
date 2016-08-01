@@ -60,6 +60,39 @@ class Goal
     "OK"
   end
 
+  def self.statistic_chart(goal)
+    result = {}
+    # needed array
+    needed = {}
+    goal.metrics.each do |metric|
+      name = metric.value + ' ' + metric.about
+      needed[name] = metric.current.to_s + " out of " + metric.aim.to_s
+    end
+    result['needed'] = needed
+
+    #percents
+    percents = []
+    goal.metrics.each do |metric|
+      data = {}
+      data['y'] = metric.current.to_f / metric.aim.to_f * 100.to_f
+      data['y'] = data['y'].to_i
+      data['color'] = calculate_color data['y']
+      percents << data
+    end
+    result['percents'] = percents
+    result
+  end
+
+  def self.calculate_color(percent)
+    if percent < 33
+      return 'red'
+    elsif percent < 66
+      return 'yellow'
+    else
+      'green'
+    end
+  end
+
 end
 
 class Metric
@@ -88,6 +121,8 @@ class Metric
   property :current, Integer,
     :default => 0
 
+  has n, :activities
+
   belongs_to :goal, :required => false
 
   def initialize(params, goal)
@@ -96,6 +131,7 @@ class Metric
     self.about = params['about']
     self.aim = params['aim']
     self.goal = goal
+    self.activities = []
   end
 
   def to_s
@@ -103,6 +139,3 @@ class Metric
   end
 
 end
-
-
-

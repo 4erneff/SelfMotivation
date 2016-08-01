@@ -42,5 +42,20 @@ get '/goal/manage' do
   error 301 unless @logged_user
   @goal = Goal.first(:id => params['g'])
   p @goal
+  @statistic = Goal.statistic_chart @goal
+  p @statistic
   erb :goal_manage
+end
+
+post '/goal/add-progress' do
+  metrics = params['metric']
+  metrics.each do |key, value|
+    p = {}
+    p['metric'] = Metric.first(:id => key)
+    p['value'] = value
+    p['date'] = params['date']
+    Activity.track_activity p
+  end
+  p Metric.all
+  "OK"
 end

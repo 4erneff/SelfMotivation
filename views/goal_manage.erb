@@ -121,7 +121,7 @@
                 <div class="form-group">
                     <label for="why" class="col-sm-3 control-label">Date</label></br>
                     <div id="dp-wrapp" class="col-sm-9 goal-field" >
-                        <input type="date" id="datepicker" class="form-control" name="goal_deadline" placeholder="When the progress was done">
+                        <input type="date" id="datepicker" class="form-control" name="date" placeholder="When the progress was done">
                         <span class="calendar-ico glyphicon glyphicon-calendar" aria-hidden="true"></span>
                     </div>
                 </div>
@@ -141,17 +141,17 @@
                             <tbody>
                                 <% @goal.metrics.each do |metric| %>
                                     <tr data-for="time-row">
-                                    <td class = "metric-field" name="metric[0][value]" data-for="value-type"><%= metric.value %></td>
-                                    <td class = "metric-field" name="metric[0][about]" data-for="about"><%= metric.about %></td>
-                                    <td class = "metric-field" name="metric[0][aim]" data-for="aim">
-                                        <input id="add-aim" class="form-control">
+                                    <td class = "metric-field"  data-for="value-type"><%= metric.value %></td>
+                                    <td class = "metric-field"  data-for="about"><%= metric.about %></td>
+                                    <td class = "metric-field" data-for="aim">
+                                        <input id="add-aim" name="metric[<%= metric.id %>]" class="form-control">
                                     </td>
                                 </tr>
                                 <% end %>                                
                             </tbody>
                         </table>
                     </div>
-                <button id="add-prog-btn" id="set-goal" type="button" class="btn btn-default btn-success" onclick="sendGoalRequest()">Add all
+                <button id="add-prog-btn" id="set-goal" type="button" class="btn btn-default btn-success" onclick="addMetrics()">Add all
                 </button>
             </div>
             <br><br>
@@ -176,7 +176,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="/js/jquery.js"></script>
-    <script src="/js/create-goal.js"></script>
+    <script src="/js/manage-goal.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.js"><\/script>')</script>
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -189,11 +189,12 @@
         });
 
         var needed = {
-            'time spent learing' : '40 out of 120',
-            'tutorials done' : '2 out of 10',
-            'lines of code written': '400 out of 600',
-            'videos watched' : '10 out of 14'
+            <% @statistic['needed'].each do |key, value| %>
+                '<%= key %>' : '<%= value %>',
+            <% end %>
         };
+
+        var percents = <%= @statistic['percents'].to_s.gsub!('=>', ':') %>;
 
         $(function () {
             $('#container').highcharts({
@@ -229,7 +230,7 @@
                 },
                 series: [{
                     name: 'Your goals progress in metrics',
-                    data: [{y: 60, color: 'yellow'} , {y: 10, color: 'red'}, {y: 90, color: 'green'}, {y: 73, color: 'green'}, ]
+                    data: percents
 
                 }],
 
