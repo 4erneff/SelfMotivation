@@ -47,7 +47,18 @@ get '/goal/manage' do
   erb :goal_manage
 end
 
+get '/goal/manage/fetch_statistics' do
+  goal = Goal.first(:id => params['g'])
+  data = Goal.statistic_chart(goal).to_json
+  p data
+  data
+end
+
 post '/goal/add-progress' do
+  validation = Goal.add_progress_validation params
+  unless validation == "OK"
+    return { :status => 'error', :message => validation}.to_json
+  end
   metrics = params['metric']
   metrics.each do |key, value|
     p = {}
@@ -57,5 +68,5 @@ post '/goal/add-progress' do
     Activity.track_activity p
   end
   p Metric.all
-  "OK"
+  { :status => 'success', :message => 'Progress added successfully'}.to_json
 end

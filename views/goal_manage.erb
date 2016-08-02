@@ -195,8 +195,9 @@
         };
 
         var percents = <%= @statistic['percents'].to_s.gsub!('=>', ':') %>;
+        var goal = <%= @goal.id %>;
 
-        $(function () {
+        function createChart() {
             $('#container').highcharts({
                 chart: {
                     type: 'column'
@@ -235,7 +236,8 @@
                 }],
 
             });
-        });
+        }
+        createChart();
     </script>
 
 </body></html>

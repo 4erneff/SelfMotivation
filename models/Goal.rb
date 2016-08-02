@@ -93,6 +93,16 @@ class Goal
     end
   end
 
+  def self.add_progress_validation(params)
+    begin
+      Date.strptime(params['date'].gsub('/', '-'), '%m-%d-%Y')
+    rescue
+      return "Please set a valid date!"
+    end
+    "OK"
+  end
+
+
 end
 
 class Metric

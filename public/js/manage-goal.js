@@ -8,8 +8,22 @@ function addMetrics() {
 	     console.log(data);
 	     alert(data.message);
 	     if ( data.status == 'success' ) {
-	     	window.location.replace(data.redirect);
+	     	refreshChart(goal);
 	     }
+	 }
+    });
+}
+
+function refreshChart(goalId) {
+	$.ajax({
+         url: "./manage/fetch_statistics",
+         type: "GET",
+         data: 'g=' + goalId,
+	 success: function(data) {
+		 data = JSON.parse(data);
+		 needed = data.needed;
+		 percents = data.percents;
+		 createChart();
 	 }
     });
 }
