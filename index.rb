@@ -10,8 +10,10 @@ require 'json'
 
 require './models/User'
 require './models/Goal'
+require './models/Activity'
 require './routes/auth'
 require './routes/goal'
+require './routes/dashboard'
 
 configure do
     DataMapper::setup(:default, File.join('sqlite3://', Dir.pwd, 'development.db'))
@@ -25,8 +27,7 @@ end
 enable :sessions
 
 get '/' do
-  @logged_user = User.get_logged_user(session)
-  puts @logged_user
+  @user = User.get_logged_user(session)
   erb :index
 end
 

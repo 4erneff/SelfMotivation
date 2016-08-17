@@ -39,7 +39,7 @@ post '/login' do
   password = params[:password]
   if user = User.authenticate(username, password)
     session[:user] = user.id
-    { :status => 'success', :redirect => '/' }.to_json
+    { :status => 'success', :redirect => '/goal/list' }.to_json
   else
     { :status => 'error', :message => 'Wrong username or password' }.to_json
   end

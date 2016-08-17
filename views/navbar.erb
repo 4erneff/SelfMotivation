@@ -17,14 +17,14 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
               </ul>
-              <% unless @logged_user %>
+              <% unless @user %>
       	      <ul class="nav navbar-nav navbar-right navbar-form">
               	<li><button onclick="location.href='/user/new'" class="btn btn-primary sign-up-btn" >Sign up</button></li>
           	<li><button onclick="location.href='/login'" class="btn btn-success">Log in</button></li>
               </ul>
             <% else %>
               <ul class="nav navbar-nav navbar-right navbar-form">
-                <li style="padding-top: 5px;color: white;"><%= @logged_user.name %></p></li>
+                <li style="padding-top: 5px;color: white;"><%= @user.name %></p></li>
               </ul>
             <% end %>
 

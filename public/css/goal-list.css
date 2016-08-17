@@ -139,3 +139,14 @@ body .miain{
 .edit-spn {
     font-size: 2em;
 }
+
+.subtitle-progress {
+    font-size: 2em;
+    color: blue;
+}
+
+.subtitle-completed {
+    font-size: 2em;
+    color: green;
+}
+}

@@ -62,11 +62,11 @@ function passwordForgottenChangePOST() {
 	     console.log(data);
 	     data = JSON.parse(data);
 	     if ( data.status === 'success' ) {
-		$("#error-msg").empty();
-		alert(data.message);	
-		window.location.replace(data.redirect);
-             } else {
-		$("#success-msg").empty();
+			$("#error-msg").empty();
+			alert(data.message);	
+			window.location.replace(data.redirect);
+         } else {
+			$("#success-msg").empty();
 	        $("#error-msg").html(data.message);
 	     }
 	 }

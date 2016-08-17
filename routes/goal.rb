@@ -1,7 +1,6 @@
 get '/goal/new' do
-  user = User.get_logged_user session
-  error 401 unless user
-  p user
+  @user = User.get_logged_user session
+  error 401 unless @user
   erb :create_goal
 end
 
@@ -31,15 +30,16 @@ get '/metric/list' do
 end
 
 get '/goal/list' do
-  user = User.get_logged_user session
-  error 301 unless user
-  @goals = Goal.all(:user => user)
+  @user = User.get_logged_user session
+  error 301 unless @user
+  @goals_in_progress = Goal.all(:user => @user, :status => 'in_progress')
+  @completed_goals = Goal.all(:user => @user, :status => 'completed')
   erb :goal_list
 end
 
 get '/goal/manage' do
-  @logged_user = User.get_logged_user session
-  error 301 unless @logged_user
+  @user = User.get_logged_user session
+  error 301 unless @user
   @goal = Goal.first(:id => params['g'])
   p @goal
   @statistic = Goal.statistic_chart @goal
@@ -49,9 +49,19 @@ end
 
 get '/goal/manage/fetch_statistics' do
   goal = Goal.first(:id => params['g'])
+  kkkkkkkkkk
   data = Goal.statistic_chart(goal).to_json
   p data
   data
+end
+
+post '/goal/manage/complete' do
+  goal = Goal.first(:id => params['g'])
+  unless goal.mark_as_completed()
+    return {:status => 'error', :message => 'Something went wrong'}.to_json
+  end
+  p goal
+  {:status => 'success', :message => 'Well done! You have completed your goal'}.to_json
 end
 
 post '/goal/add-progress' do

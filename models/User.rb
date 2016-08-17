@@ -33,6 +33,10 @@ class User
 
   property :pass_code, String
 
+  property :completed_goals, Integer,
+    :default => 0
+
+
   def initialize(hash_parameters)
     hash_parameters.each { |key, value| value.strip! }
     self.name = hash_parameters['name']
@@ -41,6 +45,7 @@ class User
     end
     self.email = hash_parameters['email']
     self.pass_code = (0...8).map { (65 + rand(26)).chr }.join
+    self.completed_goals = 0
   end
 
   def to_s

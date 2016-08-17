@@ -15,6 +15,10 @@ class Goal
   property :deadline, Date,
     :required => true
 
+  property :status, String,
+    :required => true,
+    :default => 'in_progress'
+
   has n, :metrics
 
   belongs_to :user, :required => false
@@ -25,6 +29,7 @@ class Goal
     self.how = params['goal_how']
     params['goal_deadline'].gsub!('/', '-')
     self.deadline = Date.strptime(params['goal_deadline'], '%m-%d-%Y')
+    self.status = 'in_progress'
     self.metrics = []
     self.user = user
   end
@@ -102,7 +107,12 @@ class Goal
     "OK"
   end
 
-
+  def mark_as_completed
+    self.update(:status => 'completed')
+    user = self.user
+    completed = user.completed_goals + 1
+    user.update(:completed_goals => completed)
+  end
 end
 
 class Metric

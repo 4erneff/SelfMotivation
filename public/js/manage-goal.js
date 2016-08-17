@@ -27,3 +27,17 @@ function refreshChart(goalId) {
 	 }
     });
 }
+
+function completeGoal() {
+	$.ajax({
+         url: "./manage/complete",
+         type: "POST",
+         data: 'g=' + goal,
+	 success: function(data) {
+		 data = JSON.parse(data);
+	     console.log(data);
+	     alert(data.message);
+	     location.reload(false);
+	 }
+    });
+}
