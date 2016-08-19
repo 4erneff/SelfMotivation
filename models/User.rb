@@ -79,4 +79,20 @@ class User
     return User.first(:id => session[:user]) if session[:user] != nil
     nil
   end
+
+  def get_stats
+    result = {}
+    goals = Goal.all(:user => self)
+    result['complete_goals'] = self.completed_goals
+    result['goals_set'] = goals.size
+    goals.sort! { |a, b| a.deadline <=> b.deadline }
+    nearest_goal = goals.find { |d| d.deadline >= Time.now.to_date and d.status == 'in_progress' }
+    unless nearest_goal
+      result['nearest_deadline'] = 'There are no set goals'
+    else
+      result['nearest_deadline'] = nearest_goal.deadline
+    end
+    p goals
+    p result
+  end
 end
