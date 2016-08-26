@@ -47,7 +47,7 @@ class Goal
     end
 
     if not params['goal_deadline']
-      return "Please set yout deadline!"
+      return "Please set your deadline!"
     end
 
     p params['goal_deadline']

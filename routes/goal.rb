@@ -13,7 +13,7 @@ post '/goal/new' do
   end
 
   goal = Goal.new(params, user)
-  goal.save()
+  res = goal.save()
   metrics = params['metric']
   metrics.each do |key, value|
     metric = Metric.new(value, goal)
@@ -21,6 +21,7 @@ post '/goal/new' do
     goal.metrics << metric
   end
   goal.save()
+  p goal, res
   { :status => 'success', :message => 'Goal set successfully!', :redirect => 'list' }.to_json
 end
 
@@ -41,17 +42,13 @@ get '/goal/manage' do
   @user = User.get_logged_user session
   error 301 unless @user
   @goal = Goal.first(:id => params['g'])
-  p @goal
   @statistic = Goal.statistic_chart @goal
-  p @statistic
   erb :goal_manage
 end
 
 get '/goal/manage/fetch_statistics' do
   goal = Goal.first(:id => params['g'])
-  kkkkkkkkkk
   data = Goal.statistic_chart(goal).to_json
-  p data
   data
 end
 
@@ -60,7 +57,6 @@ post '/goal/manage/complete' do
   unless goal.mark_as_completed()
     return {:status => 'error', :message => 'Something went wrong'}.to_json
   end
-  p goal
   {:status => 'success', :message => 'Well done! You have completed your goal'}.to_json
 end
 
@@ -77,6 +73,5 @@ post '/goal/add-progress' do
     p['date'] = params['date']
     Activity.track_activity p
   end
-  p Metric.all
   { :status => 'success', :message => 'Progress added successfully'}.to_json
 end

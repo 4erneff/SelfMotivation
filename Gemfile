@@ -8,4 +8,6 @@ gem 'dm-sqlite-adapter'
 gem 'dm-timestamps'
 gem 'pony'
 gem 'gmail'
+gem 'rspec'
+gem 'rack-test'
 
